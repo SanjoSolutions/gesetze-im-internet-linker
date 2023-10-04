@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Gesetze im Internet Linker",
+  "version": "0.0.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.gesetze-im-internet.de/*"
+      ],
+      "js": [
+        "build/index.js"
+      ]
+    }
+  ]
+}

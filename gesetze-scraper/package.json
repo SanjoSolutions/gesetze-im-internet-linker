@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@sanjo/read-json": "^1.0.0",
+    "@sanjo/write-json": "^1.0.0",
+    "puppeteer": "^21.3.6"
+  }
+}
