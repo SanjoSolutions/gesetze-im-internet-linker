@@ -1,4 +1,3 @@
-import { gesetezbuchMapping } from "./gesetezbuchMapping.js"
 import {
   createRegularExpression,
   paragraphSpecification,
@@ -23,36 +22,12 @@ export function linkInNode(node) {
 
     function convertReferenceToLink(match) {
       const link = document.createElement("a")
-      const gesetzesbuch = match[22]
-      let path
-      if (gesetzesbuch) {
-        path = gesetezbuchMapping.get(gesetzesbuch)
-      } else {
-        path = retrievePath(window.location.pathname)
-      }
-      if (path) {
-        if (match[0].startsWith("§")) {
-          link.href =
-            `https://www.gesetze-im-internet.de/${ path }/__${ match[2] }.html#${ match[1] }`
-          link.target = "_blank"
-          link.textContent = match[0]
-          replacements.push(link)
-        } else {
-          const paragraph = node.parentElement.closest(".jnnorm")
-            .querySelector(".jnenbez")
-            .textContent
-            .trim()
-          if (paragraph) {
-            link.href = `#${ paragraph } ${ match[0] }`
-            link.textContent = match[0]
-            replacements.push(link)
-          } else {
-            replacements.push(match[0])
-          }
-        }
-      } else {
-        replacements.push(match[0])
-      }
+      const path = retrievePath(window.location.pathname)
+      link.href =
+        `https://www.gesetze-im-internet.de/${ path }/__${ match[2] }.html#${ match[1] }`
+      link.target = "_blank"
+      link.textContent = match[0]
+      replacements.push(link)
     }
 
     function convertReferenceToLink2(match, path) {
@@ -68,15 +43,15 @@ export function linkInNode(node) {
     while (match = regExp.exec(textContent)) {
       replacements.push(textContent.substring(lastIndex, match.index))
 
-      if (match[0].startsWith("§§")) {
-        const gesetzesbuch = match[81]
-        let path
-        if (gesetzesbuch) {
-          path = gesetezbuchMapping.get(gesetzesbuch)
-        } else {
-          path = retrievePath(window.location.pathname)
-        }
-        if (path) {
+      if (textContent.substring(
+          match.index + match[0].length,
+          match.index + match[0].length + " des ".length,
+        ) ===
+        " des ") {
+        replacements.push(match[0])
+      } else {
+        if (match[0].startsWith("§§")) {
+          const path = retrievePath(window.location.pathname)
           const regExp2 = new RegExp(paragraphSpecification, "g")
           let match2
           let lastIndex2 = 0
@@ -89,10 +64,8 @@ export function linkInNode(node) {
           }
           replacements.push(subText.substring(lastIndex2, subText.length))
         } else {
-          replacements.push(match[0])
+          convertReferenceToLink(match)
         }
-      } else {
-        convertReferenceToLink(match)
       }
 
       lastIndex = match.index + match[0].length

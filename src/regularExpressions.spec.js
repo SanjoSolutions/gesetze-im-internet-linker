@@ -11,11 +11,10 @@ describe("createRegularExpression", () => {
     "§§ 21, 22, 24",
     "§§ 204, 206, 210, 211 und 212 Abs. 2 und 3",
     "§ 212 Abs. 2 und 3",
-    "§§ 204, 206, 210, 211 und 212 Abs. 2 und 3 des Bürgerlichen Gesetzbuches",
     "§§ 30, 31 und 42 Absatz 2",
     "§ 85 Absatz 2 bis 4",
-    "§ 210 des Bürgerlichen Gesetzbuchs",
-    "Absatz 2 Nummer 1 bis 3, 11 und 12",
+    "§ 35a",
+    "§ 80",
   ]
 
   for (const testString of testStrings) {
@@ -24,6 +23,18 @@ describe("createRegularExpression", () => {
       const match = regExp.exec(testString)
       expect(match).toBeTruthy()
       expect(match[0]).toEqual(testString)
+    })
+  }
+
+  const leaveOut = [
+    "Absatz 2 Nummer 1 bis 3, 11 und 12",
+  ]
+
+  for (const testString of leaveOut) {
+    test("leave out " + testString, () => {
+      const regExp = createRegularExpression()
+      const match = regExp.exec(testString)
+      expect(match).toBeNull()
     })
   }
 })

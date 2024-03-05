@@ -7,7 +7,6 @@ const highlightColor = "#d4d5ff"
 
 function highlightReferred() {
   const text = decodeURIComponent(window.location.hash.substring(1))
-  console.log(text)
   const regExp = createSingleParagraphRegularExpression()
   const match = regExp.exec(text)
   if (match) {
@@ -87,8 +86,3 @@ function highlightReferred() {
 
 highlightReferred()
 link()
-
-window.addEventListener("hashchange", function () {
-  highlightReferred()
-})
-

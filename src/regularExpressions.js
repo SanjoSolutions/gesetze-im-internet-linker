@@ -7,15 +7,16 @@ export const numberExpressionList = generateListExpression(numberExpression)
 export const numberReference = regexp`Nummer[  ]${numberExpressionList}`
 
 function generateListExpression(expression, moreThanOnce = false) {
-  return regexp`${expression}(?:(?:, | und | u. | bis )${expression})${moreThanOnce ? "+" : "*"}`
+  return regexp`${expression}(?:(?:, | und | u\. | bis )${expression})${moreThanOnce ? "+" : "*"}`
 }
 
-export const absatzSpecification = regexp`(?:Absatz|Abs\.)[  ](\d+)(?:[  ](?:${satz}(?:[  ]${numberReference}(?:[  ]Satz[  ](\d+))?)?|(?:und|u\.)[  ](\d+)|bis[  ](\d+)|${numberReference}|${satz}))?`
-export const absatzList = generateListExpression(absatzSpecification)
+export const absatzSpecification = regexp`(\d+)(?:[  ](?:${satz}(?:[  ]${numberReference}(?:[  ]Satz[  ](\d+))?)?|(?:und|u\.)[  ](\d+)|bis[  ](\d+)|${numberReference}|${satz}))?`
+export const absatzList = regexp`(?:Absatz|Abs\.)[  ]` +
+  generateListExpression(absatzSpecification)
 export const paragraphSpecification = regexp`(\d+[a-z]?)(?:[  ](?:${absatzList}|${satz}))?`
 export const gesetzbuchReference = regexp`[  ]des[  ]([${escapeRegExpText(" \"()*,-/0123456789:ABCDEFGHIJKLMNOPQRSTUVWXZ[]abcdefghijklmnopqrstuvwxyz §ÄÉÖÜßäéöü–—“„")}]+)`
-export const singleParagraphRegularExpression = regexp`((?<!§)§(?!§)[  ]${paragraphSpecification})(?:${gesetzbuchReference})?|${absatzSpecification}`
-export const multiParagraphRegularExpression = regexp`§§[  ]${generateListExpression(paragraphSpecification, true)}(?:${gesetzbuchReference})?`
+export const singleParagraphRegularExpression = regexp`((?<!§)§(?!§)[  ]${paragraphSpecification})`
+export const multiParagraphRegularExpression = regexp`§§[  ]${generateListExpression(paragraphSpecification, true)}`
 
 function escapeRegExpText(text) {
   return text.replace(/[\[\]().*+\\\-]/g, (character) => `\\${ character }`)

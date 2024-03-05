@@ -20,7 +20,7 @@ describe("", () => {
     linkInNode(document.body)
     expect(document.body.innerHTML)
       .toEqual(
-        "<a href=\"https://www.gesetze-im-internet.de/bgb/__204.html#§ 204\" target=\"_blank\">§ 204 des Bürgerlichen Gesetzbuches</a>")
+        "§ 204 des Bürgerlichen Gesetzbuches")
   })
 
   test("", () => {
@@ -29,7 +29,7 @@ describe("", () => {
     linkInNode(document.body)
     expect(document.body.innerHTML)
       .toEqual(
-        "§§ <a href=\"https://www.gesetze-im-internet.de/bgb/__204.html#§ 204\" target=\"_blank\">204</a> und <a href=\"https://www.gesetze-im-internet.de/bgb/__206.html#§ 206\" target=\"_blank\">206</a> des Bürgerlichen Gesetzbuches")
+        "§§ 204 und 206 des Bürgerlichen Gesetzbuches")
   })
 
   test("", () => {
@@ -39,6 +39,6 @@ describe("", () => {
     linkInNode(text)
     expect(text.innerHTML)
       .toEqual(
-        "<a href=\"#§ 8b Absatz 2 Nummer 1 bis 3, 11 und 12\">Absatz 2 Nummer 1 bis 3, 11 und 12</a>")
+        "Absatz 2 Nummer 1 bis 3, 11 und 12")
   })
 })
